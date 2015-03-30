@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- -->
+
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
+	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+
+	<!--Libreria google maps con jQuery Mobil-->
+	<script type="text/javascript" src="ui/jquery.ui.map.js"></script>
+	<script type="text/javascript" src="ui/jquery.ui.map.services.js"></script>
+	<script type="text/javascript" src="ui/jquery.ui.map.extensions.js"></script>
+
+	<script type="text/javascript">
+
+	</script>
+
+
+	<!-- -->
+	<style type="text/css">
+
+		.fileinput-button {
+		  position: relative;
+		  overflow: hidden;
+		  float: left;
+		  margin-right: 4px;
+		}
+		.fileinput-button input {
+		  position: absolute;
+		  top: 0;
+		  right: 0;
+		  margin: 0;
+		  opacity: 0;
+		  filter: alpha(opacity=0);
+		  transform: translate(-300px, 0) scale(4);
+		  font-size: 23px;
+		  direction: ltr;
+		  cursor: pointer;
+		}
+	</style>
+	<title></title>
+
+</head>
+<body>
+	<!--mapa -->
+	<div id="mapa" data-role="page"><!-- -->
+		<div data-role="header">
+			<h1>fotogram</h1>
+		</div>
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#" data-href="#mapa" class="ui-btn-active">Mapa</a></li>
+				<li><a href="#" data-href="#list">Listado</a></li>
+				<li><a href="#" data-href="#upload">Fotos</a></li>
+			</ul>
+		</div>
+		<div data-role="content">
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a">
+					<!--input type="text" class="tag" name="tag"-->
+				</div>
+				<div class="ui-block-b">
+					<a href="javascript:getPhotos();"
+					data-role="button" 
+					data-icon="check"
+					data-inline="true"
+					class="search-button">Buscar</a>
+				</div>				
+			</fieldset>
+			<div class="result-count"></div>
+			<br/>
+			<div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
+				<div id="map_canvas" style="height:350px"></div>
+			</div>
+		</div>
+	</div>
+	<!--lista-->
+	<div id="list" data-role="page">
+		<div data-role="header">
+			<h2>fotogram</h2>
+		</div>
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#" data-href="#mapa">Mapa</a></li>
+				<li><a href="#" data-href="#list" class="ui-btn-active">Listado</a></li>
+				<li><a href="#" data-href="#upload">Fotos</a></li>
+			</ul>
+		</div>
+		<div data-role="content">
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a">
+					<!--input type="text" class="tag" name="tag"-->
+				</div>
+				<div class="ui-block-b">
+					<a href="javascript:getPhotos();"
+					data-role="button" 
+					data-icon="check"
+					data-inline="true"
+					class="search-button">Buscar</a>
+				</div>				
+			</fieldset>
+			<div class="result-count"></div>
+			<br/>
+			<ul data-role="listview" id="element_list"></ul>
+		</div>
+	</div>
+	<!--subir-->
+	<div id="upload" data-role="page">
+		<div data-role="header">
+			<h2>No utilizar <br />mientras <br />conduce</h2>
+		</div>
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#" data-href="#mapa">Mapa</a></li>
+				<li><a href="#" data-href="#list">Listado</a></li>
+				<li><a href="#" data-href="#upload" class="ui-btn-active">Fotos</a></li>
+			</ul>
+		</div>		
+		<div data-role="box">
+			<!--a href="#"
+				data-role="button"
+				data-inline="true"				
+				id="tf" >Registra Geolocalizacion</a-->
+
+			<a href="#"
+				data-role="button"
+				data-inline="true"
+				id="pf" >(((|)))</a>
+			
+			<!--ini.boton original-->
+			<input type="text" class="form-control" id="uploadFile" placeholder="Choose File" disabled>
+			<label for="fileToUpload"></label>
+			<input type="file" name="fileToUpload" accept="image/*" capture="camera" id="uploadBtn" />
+			<!--input type="file" name="fileToUpload" accept="image/*" capture="camera" id="uploadBtn" style="display:none;" /-->
+			<input type="button" value="Tomar foto" onclick="document.getElementById('uploadBtn').click();" style="" id="btnUp" />
+			<!--fin.boton original-->
+
+			<!--ini.nuevo boton-->
+			<!--input type="text" class="form-control" id="uploadFile" placeholder="Choose File" disabled>
+			<div>
+				<span class="fileinput-button" data-role="button" data-icon="plus" >
+				    <span>Publicar imagen guardada</span>
+				    <input type="file" name="fileToUpload" accept="image/*" capture="camera" id="uploadBtn"  multiple data-role="none"/>
+				</span>
+			</div-->
+			<!--fin.nuevo boton-->
+
+			<!--ini.boton ver direcciones -->
+			<!--div class="ui-block-b">
+				<a href="#"
+				data-role="button" 
+				data-inline="true"
+				id="Mostrar"
+				class="search-button">Mostrar Direcciones
+				</a>
+			</div-->
+			<!--fin.boton ver direcciones -->
+
+
+
+		    <div class="status"></div><br/><br/>
+		    <div id="result-GPS"></div>
+		</div>
+	</div>	
+	<script type="text/javascript" src="ui/app.js"></script>
+	<script src="ui/geo.js"></script>
+	<script >
+		(function() { Imgur.init(); }() );
+	</script>
+
+</body>
+</html>
